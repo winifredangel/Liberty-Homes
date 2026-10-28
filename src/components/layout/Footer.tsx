@@ -112,7 +112,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenErrorReport }) => {
             <ul className="space-y-3 text-sm text-[#E8DED3]/80">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#795548] shrink-0 mt-0.5" />
-                <span>Suite 304, Millennium Builders Plaza, Central Business District, Abuja, Nigeria</span>
+                <span>No.17 Rufus Nduba Cresent, Dawaki, Abuja.</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#795548] shrink-0" />

@@ -97,7 +97,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenErrorReport }) =
                     Headquarters Address
                   </h4>
                   <p className="text-xs text-[#6B6B6B] mt-0.5 leading-relaxed">
-                    Suite 304, Millennium Builders Plaza, Plot 251 Herbert Macaulay Way, Central Business District, Abuja, Nigeria
+                    No.17 Rufus Nduba Cresent, Dawaki, Abuja.
                   </p>
                 </div>
               </div>

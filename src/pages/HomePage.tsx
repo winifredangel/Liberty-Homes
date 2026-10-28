@@ -1,9 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Compass, ShieldCheck, MapPin, Layers, ArrowRight, Building, CheckCircle2, TrendingUp, Users } from 'lucide-react';
+import {
+  Search,
+  Compass,
+  ShieldCheck,
+  MapPin,
+  Layers,
+  ArrowRight,
+  Building,
+  CheckCircle2,
+  TrendingUp,
+  Users,
+  Film,
+  Play,
+  Volume2,
+  VolumeX,
+  Sparkles,
+  ChevronRight,
+  Eye,
+} from 'lucide-react';
 import { PropertyCard } from '../components/property/PropertyCard';
 import { Property } from '../types';
 import { getProperties } from '../lib/supabase';
+
+export interface LuxuryHouseTour {
+  id: string;
+  name: string;
+  district: string;
+  specs: string;
+  tagline: string;
+  youtubeId: string;
+}
+
+export const LUXURY_HOUSE_TOURS: LuxuryHouseTour[] = [
+  {
+    id: 'house-1',
+    name: 'Katampe Glass Pavilion',
+    district: 'Katampe Extension, Abuja',
+    specs: '6 Beds • 7 Baths • Private Infinity Pool • 1,200 SQM Plot',
+    tagline: 'Modern Architectural Villa with Panoramic Abuja Valley Views',
+    youtubeId: 'RPfkwSTkOBk',
+  },
+  {
+    id: 'house-2',
+    name: 'Guzape Mediterranean Grand Villa',
+    district: 'Guzape Diplomatic Zone, Abuja',
+    specs: '7 Beds • 8 Baths • Multi-Level Terraces • 1,500 SQM Plot',
+    tagline: 'European-Inspired Luxury Estate Crafted with Hand-Chiseled Stone',
+    youtubeId: 'WALPs_3gkUg',
+  },
+  {
+    id: 'house-3',
+    name: 'Maitama Biophilic Modern Mansion',
+    district: 'Maitama District, Abuja',
+    specs: '5 Beds • 6 Baths • Glass Courtyard & Smart Automation',
+    tagline: 'Ultra-Contemporary Architecture with Indoor-Outdoor Zen Courtyard',
+    youtubeId: 'kUg-rhX84QE',
+  },
+  {
+    id: 'house-4',
+    name: 'Asokoro Horizon Hilltop Estate',
+    district: 'Asokoro Extension, Abuja',
+    specs: '8 Beds • 10 Baths • Private Helipad Access & Rooftop Lounge',
+    tagline: 'High-Elevation Presidential Luxury Residence with Unobstructed Vistas',
+    youtubeId: '0NRxMHHjGpQ',
+  },
+];
 
 interface HomePageProps {
   onInquire: (property?: Property) => void;
@@ -21,7 +83,12 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [district, setDistrict] = useState('all');
   const [propertyType, setPropertyType] = useState('all');
   const [maxPrice, setMaxPrice] = useState('');
+  const [selectedHouseIndex, setSelectedHouseIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
+  const [heroMode, setHeroMode] = useState<'video' | 'aerial'>('video');
   const navigate = useNavigate();
+
+  const currentHouse = LUXURY_HOUSE_TOURS[selectedHouseIndex];
 
   useEffect(() => {
     async function loadFeatured() {
@@ -165,26 +232,183 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Right Column: Hero Visual Asset (High fidelity 16:9 aerial photography) */}
+            {/* Right Column: Hero Video Showcase of Different Luxurious Houses */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden border border-[#E8DED3] shadow-lg group">
-                <img
-                  src="/src/assets/images/hero_abuja_land_1793003669625.jpg"
-                  alt="Scenic Abuja hillside land development and villas"
-                  className="w-full h-[360px] sm:h-[440px] object-cover group-hover:scale-102 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+              <div className="bg-white rounded-2xl border border-[#E8DED3] overflow-hidden shadow-lg">
+                {/* Header bar with Mode Toggles */}
+                <div className="px-4 py-3 bg-[#171717] text-white flex items-center justify-between border-b border-[#4E342E]/50">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#E8DED3] flex items-center gap-1.5">
+                      <Film className="w-3.5 h-3.5 text-[#c9b3a0]" />
+                      <span>Luxury House Tour</span>
+                    </span>
+                    <span className="text-[10px] text-[#E8DED3]/60 hidden sm:inline">
+                      ({selectedHouseIndex + 1}/4)
+                    </span>
+                  </div>
 
-                <div className="absolute bottom-6 inset-x-6 text-white space-y-2">
-                  <span className="text-[11px] font-semibold uppercase tracking-widest text-[#E8DED3] block">
-                    Cadastral Zone Development
-                  </span>
-                  <h3 className="text-xl font-serif font-bold leading-tight">
-                    Prime Hillside & Valley Enclaves in Abuja
-                  </h3>
-                  <p className="text-xs text-[#E8DED3]/80 leading-relaxed">
-                    Featuring certified boundary demarcations, dual access corridors, and unencumbered statutory titles.
+                  <div className="flex items-center gap-1 bg-white/10 p-0.5 rounded-lg text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setHeroMode('video')}
+                      className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1 ${
+                        heroMode === 'video'
+                          ? 'bg-[#795548] text-white shadow-xs'
+                          : 'text-[#E8DED3]/80 hover:text-white'
+                      }`}
+                    >
+                      <Play className="w-3 h-3 fill-current" />
+                      <span>Video</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setHeroMode('aerial')}
+                      className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1 ${
+                        heroMode === 'aerial'
+                          ? 'bg-[#795548] text-white shadow-xs'
+                          : 'text-[#E8DED3]/80 hover:text-white'
+                      }`}
+                    >
+                      <Eye className="w-3 h-3" />
+                      <span>Aerial Plot</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Main Media Player Viewport */}
+                {heroMode === 'video' ? (
+                  <div className="relative aspect-video w-full bg-black overflow-hidden group">
+                    <iframe
+                      key={currentHouse.id}
+                      src={`https://www.youtube-nocookie.com/embed/${currentHouse.youtubeId}?autoplay=1&mute=${
+                        isMuted ? '1' : '0'
+                      }&loop=1&playlist=${currentHouse.youtubeId}&controls=1&rel=0&modestbranding=1`}
+                      title={currentHouse.name}
+                      className="w-full h-full object-cover"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+
+                    {/* Quick Sound Toggle overlay */}
+                    <button
+                      type="button"
+                      onClick={() => setIsMuted(!isMuted)}
+                      className="absolute top-3 right-3 bg-black/75 hover:bg-black text-white p-2 rounded-full text-xs transition-colors backdrop-blur-xs flex items-center gap-1.5 shadow-md border border-white/20"
+                      title={isMuted ? 'Click to Unmute Audio' : 'Mute Audio'}
+                    >
+                      {isMuted ? (
+                        <>
+                          <VolumeX className="w-3.5 h-3.5 text-red-400" />
+                          <span className="text-[10px] pr-1">Muted</span>
+                        </>
+                      ) : (
+                        <>
+                          <Volume2 className="w-3.5 h-3.5 text-green-400" />
+                          <span className="text-[10px] pr-1">Sound On</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="relative aspect-video w-full overflow-hidden">
+                    <img
+                      src="/src/assets/images/hero_abuja_land_1793003669625.jpg"
+                      alt="Scenic Abuja hillside land development and villas"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+                    <div className="absolute bottom-3 inset-x-4 text-white">
+                      <span className="text-[10px] font-semibold uppercase tracking-widest text-[#E8DED3] block">
+                        Cadastral Zone Development
+                      </span>
+                      <h4 className="text-sm font-serif font-bold">
+                        Verified Hillside & Valley Enclaves in Abuja
+                      </h4>
+                    </div>
+                  </div>
+                )}
+
+                {/* House Details & Specs */}
+                <div className="p-4 sm:p-5 space-y-3 bg-[#F8F6F3]">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-1.5 text-xs text-[#795548] font-semibold">
+                        <MapPin className="w-3.5 h-3.5 shrink-0" />
+                        <span>{currentHouse.district}</span>
+                      </div>
+                      <h3 className="text-base font-serif font-bold text-[#171717] mt-0.5 leading-snug">
+                        {currentHouse.name}
+                      </h3>
+                      <p className="text-xs text-[#6B6B6B] mt-0.5">
+                        {currentHouse.specs}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onInquire()}
+                      className="shrink-0 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white bg-[#795548] hover:bg-[#4E342E] rounded-lg transition-colors whitespace-nowrap"
+                    >
+                      Build This
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-[#4E342E]/90 italic border-l-2 border-[#795548] pl-2.5 py-0.5">
+                    "{currentHouse.tagline}"
                   </p>
+
+                  {/* House Switcher Tabs: Browse 4 Different Luxurious Houses */}
+                  <div className="pt-2 border-t border-[#E8DED3]">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-[#171717] flex items-center gap-1">
+                        <Sparkles className="w-3 h-3 text-[#795548]" />
+                        <span>Select Luxury House Design:</span>
+                      </span>
+                      <span className="text-[10px] text-[#6B6B6B]">
+                        Click to view walkthrough
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      {LUXURY_HOUSE_TOURS.map((house, idx) => {
+                        const isSelected = selectedHouseIndex === idx;
+                        return (
+                          <button
+                            key={house.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedHouseIndex(idx);
+                              setHeroMode('video');
+                            }}
+                            className={`text-left p-2 rounded-lg border text-xs transition-all ${
+                              isSelected
+                                ? 'bg-white border-[#795548] shadow-xs ring-1 ring-[#795548]'
+                                : 'bg-white/60 border-[#E8DED3] hover:bg-white hover:border-[#795548]/50'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span
+                                className={`text-[10px] font-bold uppercase tracking-wider ${
+                                  isSelected ? 'text-[#795548]' : 'text-[#6B6B6B]'
+                                }`}
+                              >
+                                House {idx + 1}
+                              </span>
+                              {isSelected && (
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#795548]" />
+                              )}
+                            </div>
+                            <div className="font-semibold text-[#171717] truncate text-[11px] mt-0.5">
+                              {house.name}
+                            </div>
+                            <div className="text-[10px] text-[#6B6B6B] truncate">
+                              {house.district.split(',')[0]}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

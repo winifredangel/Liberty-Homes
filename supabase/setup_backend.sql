@@ -365,7 +365,7 @@ VALUES (
         "city": "Abuja",
         "state": "Federal Capital Territory",
         "country": "Nigeria",
-        "address": "Suite 304, Millennium Builders Plaza, Central Business District, Abuja, FCT",
+        "address": "No.17 Rufus Nduba Cresent, Dawaki, Abuja.",
         "phone": "09160336411",
         "email": "winifredmaduabuchi368@gmail.com",
         "whatsapp": "09160336411",
