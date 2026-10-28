@@ -1,0 +1,6 @@
+{
+  "name": "Liberty Homes",
+  "description": "Liberty Homes - Where Your Dream Home Begins. Premier land sales and property investment opportunities in Abuja, Nigeria with secure Supabase administration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
